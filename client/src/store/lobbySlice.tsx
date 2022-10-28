@@ -42,6 +42,12 @@ const lobbySlice = createSlice({
         )
       ) {
         state.lobby.users.push(action.payload);
+      } else {
+        state.lobby.users[
+          state.lobby.users.findIndex(
+            (el: lobbyUser) => el.id === action.payload.id
+          )
+        ].stillInGame = false;
       }
     },
     userLeft: (state, action: PayloadAction<string>) => {

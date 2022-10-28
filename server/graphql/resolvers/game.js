@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const Game = require("../../models/game");
+const Lobby = require("../../models/lobby");
 
 module.exports = {
   Query: {
@@ -44,6 +45,9 @@ module.exports = {
       let spareCards = {
         numberOfCards: game.spareCards.length,
       };
+
+      let lobby = await Lobby.findById(game.lobbyId);
+      console.log(lobby, game.lobbyId);
 
       return {
         id: game._id,

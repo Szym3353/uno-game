@@ -1,13 +1,17 @@
 import React from "react";
+import gql from "graphql-tag";
 
 //Components
 import FormComponent from "../components/Form/FormComponent";
 import { Card, CardHeader } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Container } from "@mui/system";
-import gql from "graphql-tag";
+
+//Hooks
+import useTitle from "../Hooks/useTitle";
 
 const Register = () => {
+  useTitle("Register");
   let inputs = [
     { name: "username", label: "Nazwa użytkownika" },
     { name: "email", type: "email", label: "Adres e-mail" },

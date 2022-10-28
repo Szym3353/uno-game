@@ -1,94 +1,75 @@
-import { Box, Button, Card, CardHeader } from "@mui/material";
-import { Container } from "@mui/system";
 import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import useGqlQuery from "../Hooks/useGqlQuery";
-import gql from "graphql-tag";
 import { useParams } from "react-router-dom";
-import { setGame } from "../store/gameSlice";
+import { GAME_QUERY } from "../Gql/queries";
+
+//Store
+import { player, setGame } from "../store/gameSlice";
+
+//Components
+import { CircularProgress, Card } from "@mui/material";
+import { Container } from "@mui/system";
+
+//GameComponents
+import GameCenter from "../components/Game/GameCenter";
+import GamePlayersRow from "../components/Game/GamePlayersRow";
+import GameCards from "../components/Game/GameCards";
+
+//Css
+import "../styles/game.css";
+
+//Hooks
 import useCommonData from "../Hooks/useCommonData";
+import useGqlQuery from "../Hooks/useGqlQuery";
+import GameColorSelect from "../components/Game/GameColorSelect";
+import useGame from "../Hooks/useGame";
+import useGameSocket from "../Hooks/SocketListeners/useGameSocket";
+import useTitle from "../Hooks/useTitle";
 
 const Game = () => {
   const { id } = useParams();
-  let { user } = useCommonData();
+  let { user, game } = useCommonData();
+  let { handleSelColor, colorSelect } = useGame();
+
   const { loading } = useGqlQuery(
     GAME_QUERY,
     { id, userId: user && user.id },
     setGame
   );
+
+  let playerIndex = game?.players?.findIndex((el: player) => el.cards);
+
+  useGameSocket();
+  useTitle(
+    `Gra: ${
+      game.state === "started"
+        ? game.players[
+            game.players.findIndex((el: player) => el.id == game.turn)
+          ].username
+        : ""
+    }${game.state === "ended" ? "Gra skończona" : ""}`
+  );
+
   return (
     <Container>
-      <Card>
-        <Grid xs={12} spacing={0} container>
-          <Grid xs={2}>
-            <Card sx={{ border: "1px solid red" }}>
-              <CardHeader title="Player" />
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        Object.keys(game).length > 0 && (
+          <>
+            <Card>
+              {colorSelect && (
+                <GameColorSelect handleSelColor={handleSelColor} />
+              )}
+              <GamePlayersRow values={[0, 1]} />
+              <GameCenter />
+              <GamePlayersRow values={[2, 3]} />
             </Card>
-          </Grid>
-          <Grid xs={2} xsOffset={"auto"}>
-            <Card sx={{ border: "1px solid red" }}>
-              <CardHeader title="Player" />
-            </Card>
-          </Grid>
-        </Grid>
-        <Box>
-          <div>karta</div>
-          <Box>
-            <Button variant="contained">Dobierz kartę</Button>
-          </Box>
-        </Box>
-      </Card>
+            <GameCards cards={game.players[playerIndex].cards} />
+          </>
+        )
+      )}
     </Container>
   );
 };
 
 export default Game;
-
-const GAME_QUERY = gql`
-  query getGame($id: String, $userId: String) {
-    getGame(id: $id, userId: $userId) {
-      id
-      lobbyId
-      state
-      turn
-      players {
-        id
-        username
-        numberOfCards
-        stopped
-        points
-        cards {
-          value
-          color
-          special
-          description
-        }
-      }
-      direction
-      winners {
-        username
-        points
-      }
-      lobbyChat {
-        message
-        author
-        createdAt
-        messageType
-      }
-      centerCards {
-        latestCard {
-          color
-          value
-          special
-          description
-        }
-        numberOfCards
-      }
-      spareCards {
-        numberOfCards
-      }
-      specialActive
-      onPlus
-    }
-  }
-`;

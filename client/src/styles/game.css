@@ -1,0 +1,32 @@
+.card {
+  height: 100px;
+  transition: 0.4s ease-out;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+}
+
+.card-display-stack:not(:first-child) {
+  margin-left: -25px;
+}
+.card-display-stack:hover {
+  transform: translateY(-15px);
+  transition: 0.4s ease-out;
+}
+.card-display-stack:hover + .card-display-stack {
+  margin-left: 0px;
+  transition: 0.4s ease-out;
+  position: relative;
+}
+
+.player-small-cards {
+  width: 25px;
+}
+
+.player-small-cards:not(:first-child) {
+  margin-left: -10px;
+}
+
+.card-selected {
+  border: 2px solid red;
+}

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { UserInputError, ApolloError } = require("apollo-server-express");
 const { default: mongoose } = require("mongoose");
 const Lobby = require("../../models/lobby");
+const Game = require("../../models/game");
 
 function generateToken(user) {
   return jwt.sign(
@@ -38,6 +39,12 @@ module.exports = {
           returnedValue.id = checkIfInLobby._id;
           if ((checkIfInLobby.gameState = "started")) {
             //tu będzie check czy jest w grze jak będą zrobione
+            let checkIfInGame = await Game.findOne({ "players.id": id });
+            if (checkIfInGame) {
+              console.log("jest w grze");
+              returnedValue.userIn = "game";
+              returnedValue.id = checkIfInGame._id;
+            }
           }
         }
         return { ...returnedValue };

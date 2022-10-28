@@ -1,0 +1,28 @@
+.lobby-chat-messages {
+  height: 180px;
+  word-break: break-all;
+
+  overflow: scroll;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-x: hidden;
+}
+
+.lobby-chat-message {
+  padding: 5px;
+  margin: 0;
+}
+
+.lobby-chat-form {
+  display: flex;
+}
+
+.lobby-chat-input {
+  width: 100%;
+}
+
+.chat-message-system {
+  opacity: 0.5;
+}

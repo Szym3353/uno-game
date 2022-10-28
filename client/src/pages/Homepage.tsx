@@ -2,8 +2,9 @@ import React, { useState } from "react";
 
 //Components
 import LoggedUserInfo from "../components/Homepage/LoggedUserInfo";
+import CodeBox from "../components/Homepage/CodeBox";
 import Button from "@mui/material/Button";
-import { Card, CardHeader, Container, TextField } from "@mui/material";
+import { Card, CardHeader, Container } from "@mui/material";
 import { Box } from "@mui/system";
 
 //Store
@@ -12,12 +13,14 @@ import { logout } from "../store/userSlice";
 //Hooks
 import useLobby from "../Hooks/useLobby";
 import useCommonData from "../Hooks/useCommonData";
-import CodeBox from "../components/Homepage/CodeBox";
+import useTitle from "../Hooks/useTitle";
 
 const Homepage = () => {
   const { createLobby } = useLobby();
   const { dispatch } = useCommonData();
   const [showCodeBox, setShowCodeBox] = useState<boolean>(false);
+
+  useTitle("HomePage");
 
   return (
     <Container>

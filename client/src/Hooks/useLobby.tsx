@@ -44,10 +44,12 @@ export default function useLobby() {
         lobbyId: lobby.id,
       },
       (err: errorType, res: string) => {
+        console.log("err, res", err, res);
         if (err) {
           return dispatch(addError(err));
         }
         if (res) {
+          console.log(res);
           navigate(`/game/${res}`);
         }
       }

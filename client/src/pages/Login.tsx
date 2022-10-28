@@ -7,7 +7,11 @@ import { Card, CardHeader } from "@mui/material";
 import { Container } from "@mui/system";
 import { Link } from "react-router-dom";
 
+//Login
+import useTitle from "../Hooks/useTitle";
+
 const Login = () => {
+  useTitle("Login");
   let inputs = [
     {
       name: "email",

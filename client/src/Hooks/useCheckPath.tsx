@@ -19,7 +19,6 @@ export default function useCheckPath() {
         );
       }
       if (data) {
-        console.log("Check pathname jest gdzieś", data);
         if (data.isUserAnywhere.userIn !== "") {
           socket.emit("rejoin", { id: data.isUserAnywhere.id });
           if (
