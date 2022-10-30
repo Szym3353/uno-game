@@ -1,5 +1,4 @@
 import React from "react";
-import gql from "graphql-tag";
 
 //Components
 import FormComponent from "../components/Form/FormComponent";
@@ -10,8 +9,12 @@ import { Link } from "react-router-dom";
 //Login
 import useTitle from "../Hooks/useTitle";
 
+//GQL
+import { LOGIN_MUTATION } from "../Gql/mutations";
+
 const Login = () => {
   useTitle("Login");
+
   let inputs = [
     {
       name: "email",
@@ -38,11 +41,3 @@ const Login = () => {
 };
 
 export default Login;
-
-let LOGIN_MUTATION = gql`
-  mutation login($email: String, $password: String) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`;

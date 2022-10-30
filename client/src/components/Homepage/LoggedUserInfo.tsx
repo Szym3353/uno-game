@@ -1,7 +1,9 @@
-import { Link, Paper, Typography } from "@mui/material";
 import React from "react";
 
 import { Link as RouterLink } from "react-router-dom";
+
+//Components
+import { Link, Paper, Typography } from "@mui/material";
 
 const LoggedUserInfo = () => {
   return (

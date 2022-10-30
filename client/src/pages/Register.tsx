@@ -1,5 +1,4 @@
 import React from "react";
-import gql from "graphql-tag";
 
 //Components
 import FormComponent from "../components/Form/FormComponent";
@@ -10,8 +9,12 @@ import { Container } from "@mui/system";
 //Hooks
 import useTitle from "../Hooks/useTitle";
 
+//GQL
+import { REGISTER_MUTATION } from "../Gql/mutations";
+
 const Register = () => {
   useTitle("Register");
+
   let inputs = [
     { name: "username", label: "Nazwa użytkownika" },
     { name: "email", type: "email", label: "Adres e-mail" },
@@ -35,21 +38,3 @@ const Register = () => {
   );
 };
 export default Register;
-
-let REGISTER_MUTATION = gql`
-  mutation register(
-    $username: String
-    $email: String
-    $password: String
-    $confirmPassword: String
-  ) {
-    register(
-      username: $username
-      email: $email
-      password: $password
-      confirmPassword: $confirmPassword
-    ) {
-      token
-    }
-  }
-`;

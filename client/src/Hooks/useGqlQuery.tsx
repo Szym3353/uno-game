@@ -10,13 +10,9 @@ export default function useGqlQuery(
 ) {
   const { dispatch } = useCommonData();
 
-  console.log("variables", variables);
-
   const { data, loading, error } = useQuery(gql, { variables });
 
   useEffect(() => {
-    console.log("loading change");
-    console.log(data, error?.graphQLErrors[0]?.message, loading);
     if (error) {
       dispatch(
         addError({
@@ -27,7 +23,6 @@ export default function useGqlQuery(
         })
       );
     } else if (data) {
-      console.log("data", data);
       dispatch(action(Object.values(data)[0]));
     }
   }, [loading]);

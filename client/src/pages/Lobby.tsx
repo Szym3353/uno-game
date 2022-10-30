@@ -1,6 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { LOBBY_QUERY } from "../Gql/queries";
 
 //Components
 import { Container } from "@mui/system";
@@ -12,11 +10,15 @@ import LobbyChat from "../components/Lobby/LobbyChat";
 import { setLobby } from "../store/lobbySlice";
 
 //Hooks
+import { useParams } from "react-router-dom";
 import useGqlQuery from "../Hooks/useGqlQuery";
 import useCommonData from "../Hooks/useCommonData";
 import useLobby from "../Hooks/useLobby";
 import useLobbySocket from "../Hooks/SocketListeners/useLobbySocket";
 import useTitle from "../Hooks/useTitle";
+
+//GQL
+import { LOBBY_QUERY } from "../Gql/queries";
 
 const Lobby = () => {
   const { id } = useParams();

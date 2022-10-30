@@ -8,7 +8,7 @@ export default function useCommonData() {
   const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.userReducer.user);
-  const errors = useSelector((state: RootState) => state.errorReducer);
+  const errors = useSelector((state: RootState) => state.errorReducer.errors);
   const lobby = useSelector((state: RootState) => state.lobbyReducer.lobby);
   const game = useSelector((state: RootState) => state.gameReducer.game);
 

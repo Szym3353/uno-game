@@ -31,6 +31,7 @@ const LobbyUsers = () => {
       <Stack flexWrap={"wrap"} direction={"row"}>
         {lobby.users.map((el: lobbyUser) => (
           <Paper
+            key={el.id}
             sx={{
               width: "100px",
               mx: 1,

@@ -7,16 +7,23 @@ export type errorType = {
   path?: string;
 };
 
+let errors = [] as errorType[];
+
 const errorSlice = createSlice({
   name: "error",
-  initialState: [] as errorType[],
+  initialState: { errors },
   reducers: {
     addError: (state, action: PayloadAction<errorType>) => {
-      state.push(action.payload);
+      state.errors.push(action.payload);
+    },
+    clearError: (state, action: PayloadAction<number>) => {
+      state.errors = state.errors.filter(
+        (el, index) => index !== action.payload
+      );
     },
   },
 });
 
 const { actions, reducer } = errorSlice;
-export const { addError } = actions;
+export const { addError, clearError } = actions;
 export default reducer;

@@ -34,8 +34,12 @@ const LobbyChat = () => {
           {lobby.lobbyChat
             .slice(0)
             .reverse()
-            .map((message: chatMessage) => (
-              <LobbyChatMessage message={message} lobbyUsers={lobby.users} />
+            .map((message: chatMessage, index: number) => (
+              <LobbyChatMessage
+                key={`messNumb-${index}`}
+                message={message}
+                lobbyUsers={lobby.users}
+              />
             ))}
         </div>
         <form onSubmit={(e) => handleSubmit(e)} className="lobby-chat-form">
@@ -48,41 +52,6 @@ const LobbyChat = () => {
             Wyślij
           </Button>
         </form>
-        {/*  <List
-          dense={true}
-          sx={{
-            height: "100px",
-            overflow: "scroll",
-            overflowX: "hidden",
-          }}
-        >
-          {lobby.lobbyChat.map((message: chatMessage) => (
-            <ListItem>
-              <ListItemText
-                primary={`[${message.createdAt.split("T")[1].split(".")[0]}] ${
-                  message.messageType === "user"
-                    ? lobby.users.find(
-                        (el: lobbyUser) => el.id === message.author
-                      )?.username
-                    : ""
-                }: ${message.message}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Box display="flex">
-          <TextField
-            onChange={(e) => setMessageInput(e.currentTarget.value)}
-            fullWidth
-          />
-          <Button
-            type="submit"
-            onClick={() => sendMessage(messageInput)}
-            variant={"contained"}
-          >
-            Wyślij
-          </Button>
-        </Box> */}
       </Card>
     </Box>
   );

@@ -1,6 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { GAME_QUERY } from "../Gql/queries";
 
 //Store
 import { player, setGame } from "../store/gameSlice";
@@ -14,10 +12,14 @@ import GameCenter from "../components/Game/GameCenter";
 import GamePlayersRow from "../components/Game/GamePlayersRow";
 import GameCards from "../components/Game/GameCards";
 
+//GQL
+import { GAME_QUERY } from "../Gql/queries";
+
 //Css
 import "../styles/game.css";
 
 //Hooks
+import { useParams } from "react-router-dom";
 import useCommonData from "../Hooks/useCommonData";
 import useGqlQuery from "../Hooks/useGqlQuery";
 import GameColorSelect from "../components/Game/GameColorSelect";

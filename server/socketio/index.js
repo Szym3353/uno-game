@@ -26,7 +26,6 @@ function getCurrentDate() {
 
 function handleConnection(io, socket) {
   socket.on("rejoin", (data) => {
-    console.log("rejoin", data);
     socket.join(data.id);
   });
   socket.on("create-lobby", async (data, callBackFunc) => {
@@ -62,7 +61,6 @@ function handleConnection(io, socket) {
     }
   });
   socket.on("join-lobby", async (data, callBackFunc) => {
-    console.log("join lobby", data);
     try {
       if (data.code.length > codeLength || data.code.length < codeLength) {
         throw new Error("Niepoprawna długość kodu");
@@ -90,7 +88,6 @@ function handleConnection(io, socket) {
 
       callBackFunc(null, lobby._id);
     } catch (error) {
-      console.log("error", error.message);
       callBackFunc({ message: error.message, type: "error" });
     }
   });
@@ -162,7 +159,6 @@ function handleConnection(io, socket) {
 
   socket.on("play-card", async (data, callBackFunc) => {
     try {
-      console.log("PLAY CARD", data);
       let game = await Game.findById(data.gameId);
       let playerIndex = game.players.findIndex((el) => el.id === data.userId);
 
@@ -265,10 +261,8 @@ function handleConnection(io, socket) {
         }
       }
 
-      console.log("to tu jednak raczej");
       callBackFunc(null, "");
 
-      console.log("to tu jednak");
       //Points
       let multiplier = 3;
       switch (data.cards[0].value) {
@@ -292,15 +286,13 @@ function handleConnection(io, socket) {
             parseInt(data.cards[0].value) * multiplier;
           break;
       }
-      console.log("to tu?");
+
       //Zmiana ruchu i środkowej karty
       game.centerCards = [...game.centerCards, ...data.cards];
       game.turn = getTurn(game, data.userId);
-      console.log("to tu");
 
       //checkWin
       if (game.players[playerIndex].cards.length === 0) {
-        console.log("czy win");
         game.players[playerIndex].points +=
           game.players.length * 1000 - game.winners.length * 1000;
         game.winners.push({
@@ -398,7 +390,6 @@ function handleConnection(io, socket) {
       socket.to(`${lobby._id}`).emit("lobby-message-receive", newMessage);
       callBackFunc(null, newMessage);
     } catch (error) {
-      console.log(error);
       callBackFunc({ message: error.message, type: "error" });
     }
   });
@@ -476,16 +467,6 @@ function handleConnection(io, socket) {
       }
 
       let playerIndex = game.players.findIndex((el) => el.id === data.userId);
-
-      /* if (game.spareCards.length < data.number) {
-        if (game.centerCards.length > 1) {
-          let newCards = shuffle(
-            game.centerCards.slice(0, game.centerCards.length - 2)
-          );
-          game.centerCards.splice(0, game.centerCards.length - 1);
-          game.spareCards = [...game.spareCards, ...newCards];
-        }
-      } */
 
       //define how much cards need to take and other vars
       let useNumber = data.number;

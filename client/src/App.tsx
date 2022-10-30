@@ -4,9 +4,12 @@ import { socket } from "./socket";
 //Components
 import RouterComponent from "./components/App/RouterComponent";
 import LoadingToServer from "./components/App/LoadingToServer";
+import ErrorsContainer from "./components/App/ErrorsContainer";
 
 //CSS
 import "./styles/main.css";
+
+//Hooks
 import useCheckPath from "./Hooks/useCheckPath";
 
 function App() {
@@ -31,7 +34,14 @@ function App() {
 
   return (
     <div className="App">
-      {isConnected ? <RouterComponent /> : <LoadingToServer />}
+      {isConnected ? (
+        <>
+          <ErrorsContainer />
+          <RouterComponent />
+        </>
+      ) : (
+        <LoadingToServer />
+      )}
     </div>
   );
 }

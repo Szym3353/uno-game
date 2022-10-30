@@ -1,4 +1,6 @@
 import React from "react";
+
+//Store
 import { chatMessage, lobbyUser } from "../../store/lobbySlice";
 
 type props = {

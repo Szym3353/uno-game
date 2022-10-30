@@ -39,16 +39,10 @@ export default function useForm(gql: DocumentNode) {
     },
     onError(error: any) {
       if (error.graphQLErrors[0]) {
-        console.log(
-          "form errror",
-          error.graphQLErrors[0].extensions.inputErrors
-        );
         setFormErrors((prev: errors[] | []) => [
           ...prev,
           error.graphQLErrors[0].extensions.inputErrors,
         ]);
-      } else {
-        console.log(error);
       }
     },
     variables: formData,
@@ -66,7 +60,6 @@ export default function useForm(gql: DocumentNode) {
   let handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormErrors([]);
-    console.log("formData", formData);
     formFunc();
   };
 
