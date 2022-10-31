@@ -14,8 +14,8 @@ const GameEnd = () => {
   return (
     <Card>
       <List>
-        {game.winners.map((user: winner) => (
-          <ListItem>
+        {game.winners.map((user: winner, index: number) => (
+          <ListItem key={index}>
             <ListItemText primary={user.username} secondary={user.points} />
           </ListItem>
         ))}

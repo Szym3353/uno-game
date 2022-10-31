@@ -3,9 +3,15 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 //Components
-import { Link, Paper, Typography } from "@mui/material";
+import { CircularProgress, Link, Paper, Typography } from "@mui/material";
 
-const LoggedUserInfo = () => {
+const LoggedUserInfo = ({
+  loading,
+  userData,
+}: {
+  loading: boolean;
+  userData: { ranking: number; points: number; username: string };
+}) => {
   return (
     <Paper
       sx={{
@@ -16,14 +22,22 @@ const LoggedUserInfo = () => {
         display: "inline-block",
       }}
     >
-      <Typography variant="h6">Username</Typography>
-      <Typography variant="subtitle1">Punkty: 200 | Ranking: #2</Typography>
-      <Link display={"block"}>
-        <RouterLink to="/stats">Ranking</RouterLink>
-      </Link>
-      <Link>
-        <RouterLink to="/">Edytuj profil</RouterLink>
-      </Link>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <Typography variant="h6">{userData.username}</Typography>
+          <Typography variant="subtitle1">
+            Punkty: {userData.points} | Ranking: #{userData.ranking}
+          </Typography>
+          <Link display={"block"}>
+            <RouterLink to="/stats">Ranking</RouterLink>
+          </Link>
+          <Link>
+            <RouterLink to="/">Edytuj profil</RouterLink>
+          </Link>
+        </>
+      )}
     </Paper>
   );
 };

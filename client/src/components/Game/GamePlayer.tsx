@@ -1,4 +1,4 @@
-import { Card, CardHeader, Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
 import { player } from "../../store/gameSlice";
@@ -16,8 +16,12 @@ const GamePlayer = ({
         <>
           <Typography>{player.username}</Typography>
           <Stack direction={"row"}>
-            {[...Array(player.numberOfCards)].map(() => (
-              <img src="/cards/cardBg.png" className="player-small-cards" />
+            {[...Array(player.numberOfCards)].map((el: any, index: number) => (
+              <img
+                key={index}
+                src="/cards/cardBg.png"
+                className="player-small-cards"
+              />
             ))}
           </Stack>
         </>

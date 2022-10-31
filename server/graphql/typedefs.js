@@ -51,6 +51,12 @@ module.exports = gql`
     username: String!
     points: Int!
   }
+  type stats {
+    username: String
+    id: ID
+    ranking: Int!
+    points: Int!
+  }
   type game {
     id: ID!
     lobbyId: String!
@@ -67,6 +73,7 @@ module.exports = gql`
     isUserAnywhere(id: String, userId: String): isAnywhere
     getLobby(id: String, userId: String): lobby
     getGame(id: String, userId: String): game
+    getStats(page: Int, id: String): stats
   }
   type Mutation {
     login(email: String, password: String): token!

@@ -12,6 +12,7 @@ const GameCards = ({ cards }: { cards?: card[] }) => {
       <Stack direction={"row"} padding={2}>
         {cards.map((card: card, index: number) => (
           <img
+            key={index}
             onClick={() => handlePlayCard(card, index)}
             onContextMenu={(e) => handleSelect(e, index)}
             className={`card card-display-stack ${

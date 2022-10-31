@@ -20,8 +20,45 @@ function generateToken(user) {
 
 module.exports = {
   Query: {
+    async getStats(_, { page, id }) {
+      let elementsPerPage = 10;
+      try {
+        if (id) {
+          if (!mongoose.isValidObjectId(id)) {
+            throw new Error("Niepoprawny identyfikator użytkownika");
+          }
+        }
+
+        const users = await User.find({});
+
+        let usersSortedList = users.sort(
+          (a, b) => b.stats.points - a.stats.points
+        );
+
+        if (id) {
+          let userIndex = usersSortedList.findIndex((user) => user.id === id);
+          return {
+            ranking: userIndex + 1,
+            points: usersSortedList[userIndex].stats.points,
+          };
+        }
+
+        return users
+          .sort((a, b) => b.stats.points - a.stats.points)
+          .slice(elementsPerPage * (page - 1), elementsPerPage * page)
+          .map((el, i) => {
+            return {
+              id: el.id,
+              ranking: elementsPerPage * (page - 1) + i + 1,
+              points: el.stats.points,
+              username: el.username,
+            };
+          });
+      } catch (error) {
+        throw new ApolloError(error.message);
+      }
+    },
     async isUserAnywhere(_, { id }) {
-      console.log(id);
       try {
         let returnedValue = { userIn: "" };
         if (!mongoose.isValidObjectId(id)) {
@@ -33,7 +70,6 @@ module.exports = {
         }
 
         let checkIfInLobby = await Lobby.findOne({ "users.id": id });
-        console.log(checkIfInLobby);
         if (checkIfInLobby) {
           returnedValue.userIn = "lobby";
           returnedValue.id = checkIfInLobby._id;
@@ -41,7 +77,6 @@ module.exports = {
             //tu będzie check czy jest w grze jak będą zrobione
             let checkIfInGame = await Game.findOne({ "players.id": id });
             if (checkIfInGame) {
-              console.log("jest w grze");
               returnedValue.userIn = "game";
               returnedValue.id = checkIfInGame._id;
             }

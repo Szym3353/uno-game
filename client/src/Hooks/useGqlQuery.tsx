@@ -6,7 +6,7 @@ import useCommonData from "./useCommonData";
 export default function useGqlQuery(
   gql: DocumentNode,
   variables: any,
-  action: any
+  action?: any
 ) {
   const { dispatch } = useCommonData();
 
@@ -22,10 +22,10 @@ export default function useGqlQuery(
           type: "error",
         })
       );
-    } else if (data) {
+    } else if (data && action) {
       dispatch(action(Object.values(data)[0]));
     }
   }, [loading]);
 
-  return { loading };
+  return { loading, data };
 }

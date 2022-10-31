@@ -6,6 +6,7 @@ const GameColorSelect = ({
 }: {
   handleSelColor: (color: string) => void;
 }) => {
+  let colors = ["red", "yellow", "blue", "green"];
   return (
     <Card
       sx={{
@@ -16,22 +17,12 @@ const GameColorSelect = ({
         trasnform: "translate(-50%, -50%)",
       }}
     >
-      <Box
-        sx={{ width: "75px", height: "75px", bgColor: "red" }}
-        onClick={() => handleSelColor("red")}
-      ></Box>
-      <Box
-        sx={{ width: "75px", height: "75px", bgColor: "blue" }}
-        onClick={() => handleSelColor("blue")}
-      ></Box>
-      <Box
-        sx={{ width: "75px", height: "75px", bgColor: "yellow" }}
-        onClick={() => handleSelColor("yellow")}
-      ></Box>
-      <Box
-        sx={{ width: "75px", height: "75px", bgColor: "green" }}
-        onClick={() => handleSelColor("green")}
-      ></Box>
+      {colors.map((color: string, index: number) => (
+        <Box
+          sx={{ width: "75px", height: "75px", bgColor: `${color}` }}
+          onClick={() => handleSelColor(`${color}`)}
+        ></Box>
+      ))}
     </Card>
   );
 };

@@ -1,5 +1,14 @@
 import gql from "graphql-tag";
 
+export const STATS_QUERY = gql`
+  query getStats($page: Int, $id: String) {
+    getStats(page: $page, id: $id) {
+      points
+      ranking
+    }
+  }
+`;
+
 export const GAME_QUERY = gql`
   query getGame($id: String, $userId: String) {
     getGame(id: $id, userId: $userId) {

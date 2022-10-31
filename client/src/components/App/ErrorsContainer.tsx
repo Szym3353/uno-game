@@ -33,6 +33,7 @@ const ErrorsContainer = () => {
             },
           }}
           onClick={() => dispatch(clearError(index))}
+          key={`err-${index}`}
         >
           <Slide
             direction="left"

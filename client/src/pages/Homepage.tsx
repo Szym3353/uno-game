@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { STATS_QUERY } from "../Gql/queries";
 
 //Components
 import LoggedUserInfo from "../components/Homepage/LoggedUserInfo";
@@ -14,13 +15,16 @@ import { logout } from "../store/userSlice";
 import useLobby from "../Hooks/useLobby";
 import useCommonData from "../Hooks/useCommonData";
 import useTitle from "../Hooks/useTitle";
+import useGqlQuery from "../Hooks/useGqlQuery";
 
 const Homepage = () => {
   const { createLobby } = useLobby();
-  const { dispatch } = useCommonData();
+  const { dispatch, user } = useCommonData();
   const [showCodeBox, setShowCodeBox] = useState<boolean>(false);
 
   useTitle("HomePage");
+
+  const { loading, data } = useGqlQuery(STATS_QUERY, { id: user && user.id });
 
   return (
     <Container>
@@ -32,7 +36,10 @@ const Homepage = () => {
             Wyloguj
           </Button>
         </Box>
-        <LoggedUserInfo />
+        <LoggedUserInfo
+          loading={loading}
+          userData={{ ...data?.getStats, username: user && user.username }}
+        />
         <Box>
           <Button onClick={createLobby} variant="contained">
             Stwórz lobby
