@@ -5,6 +5,7 @@ const lobbySchema = new Schema(
     gameState: String,
     gameId: String,
     code: String,
+    status: String,
     lobbyChat: [
       {
         message: String,

@@ -28,7 +28,13 @@ const LobbyChat = () => {
 
   return (
     <Box sx={{ mt: 5 }}>
-      <Card sx={{ boxShadow: "1px 1px 7px rgba(0,0,0,0.4)", px: 2 }}>
+      <Card
+        sx={{
+          boxShadow: "1px 1px 7px rgba(0,0,0,0.4)",
+          px: 2,
+          maxHeight: "300px",
+        }}
+      >
         <CardHeader title="chat" />
         <div className="lobby-chat-messages">
           {lobby.lobbyChat

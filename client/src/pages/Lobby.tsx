@@ -2,7 +2,14 @@ import React from "react";
 
 //Components
 import { Container } from "@mui/system";
-import { Box, Button, Card, CardHeader, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  CircularProgress,
+  Switch,
+} from "@mui/material";
 import LobbyUsers from "../components/Lobby/LobbyUsers";
 import LobbyChat from "../components/Lobby/LobbyChat";
 
@@ -23,7 +30,7 @@ import { LOBBY_QUERY } from "../Gql/queries";
 const Lobby = () => {
   const { id } = useParams();
   const { lobby, user } = useCommonData();
-  const { leaveLobby, startGame } = useLobby();
+  const { leaveLobby, startGame, changeStatus, checkHost } = useLobby();
 
   useTitle(`Lobby ${lobby.users && lobby.users.length}/10`);
 
@@ -43,10 +50,25 @@ const Lobby = () => {
         Object.keys(lobby).length > 0 && (
           <Card sx={{ p: 3 }}>
             <Box display="flex" justifyContent={"space-between"} sx={{ mb: 3 }}>
-              <CardHeader
-                title={`Pokój użytkownika ${lobby.users[0].username}`}
-                subheader={`Kod: ${lobby.code}`}
-              />
+              <Box>
+                <CardHeader
+                  title={`Pokój użytkownika ${lobby.users[0].username}`}
+                  subheader={`Kod: ${lobby.code}`}
+                />
+                {checkHost() ? (
+                  <>
+                    <Switch
+                      checked={lobby.status === "private"}
+                      onChange={changeStatus}
+                    />{" "}
+                    Prywatny pokój
+                  </>
+                ) : (
+                  <p>{`Pokój ${
+                    lobby.status === "open" ? "publiczny" : "prywatny"
+                  }`}</p>
+                )}
+              </Box>
               <Button onClick={leaveLobby} variant="contained">
                 Opuść pokój
               </Button>

@@ -68,6 +68,16 @@ export const GAME_QUERY = gql`
   }
 `;
 
+export const LOBBIES_LIST_QUERY = gql`
+  query getPublicLobbies($page: Int) {
+    getPublicLobbies(page: $page) {
+      code
+      hostUsername
+      users
+    }
+  }
+`;
+
 export const LOBBY_QUERY = gql`
   query getLobby($id: String, $userId: String) {
     getLobby(id: $id, userId: $userId) {
@@ -75,6 +85,7 @@ export const LOBBY_QUERY = gql`
       gameState
       gameId
       code
+      status
       users {
         username
         id

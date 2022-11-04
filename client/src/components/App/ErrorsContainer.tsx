@@ -22,6 +22,7 @@ const ErrorsContainer = () => {
         bottom: "10px",
         maxWidth: "400px",
         overflow: "hidden",
+        zIndex: "100",
       }}
       ref={containerRef}
     >

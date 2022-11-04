@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button, Card, CardHeader, TextField } from "@mui/material";
 
 //Hooks
-import useLobby from "../../Hooks/useLobby";
+import useLobby from "../../../Hooks/useLobby";
 
 const CodeBox = () => {
   let { joinLobby } = useLobby();
@@ -14,14 +14,9 @@ const CodeBox = () => {
   return (
     <Card
       sx={{
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
         p: 2,
         boxShadow: "1px 2px 6px rgba(0,0,0,0.6)",
         textAlign: "center",
-        zIndex: "100",
       }}
     >
       <CardHeader title={"Wprowadź kod"} />

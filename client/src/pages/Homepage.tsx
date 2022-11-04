@@ -3,10 +3,10 @@ import { STATS_QUERY } from "../Gql/queries";
 
 //Components
 import LoggedUserInfo from "../components/Homepage/LoggedUserInfo";
-import CodeBox from "../components/Homepage/CodeBox";
 import Button from "@mui/material/Button";
 import { Card, CardHeader, Container } from "@mui/material";
 import { Box } from "@mui/system";
+import JoinBox from "../components/Homepage/JoinLobby/JoinBox";
 
 //Store
 import { logout } from "../store/userSlice";
@@ -20,7 +20,7 @@ import useGqlQuery from "../Hooks/useGqlQuery";
 const Homepage = () => {
   const { createLobby } = useLobby();
   const { dispatch, user } = useCommonData();
-  const [showCodeBox, setShowCodeBox] = useState<boolean>(false);
+  const [showJoinBox, setShowJoinBox] = useState<boolean>(false);
 
   useTitle("HomePage");
 
@@ -28,7 +28,7 @@ const Homepage = () => {
 
   return (
     <Container>
-      {showCodeBox && <CodeBox />}
+      {showJoinBox && <JoinBox />}
       <Card sx={{ p: 2 }}>
         <Box display={"flex"} justifyContent={"space-between"} sx={{ px: 1 }}>
           <CardHeader title={"Uno"} />
@@ -47,7 +47,7 @@ const Homepage = () => {
           <Button
             sx={{ bgcolor: "teal", "&:hover": { bgcolor: "#035e5e" }, mx: 2 }}
             variant="contained"
-            onClick={() => setShowCodeBox((prev: boolean) => !prev)}
+            onClick={() => setShowJoinBox((prev: boolean) => !prev)}
           >
             Dołącz do lobby
           </Button>

@@ -10,6 +10,7 @@ import {
   userJoined,
   userLeft,
   leaveLobby as kickedFromLobby,
+  changeStatus,
 } from "../../store/lobbySlice";
 
 //Hooks
@@ -30,6 +31,9 @@ export default function useLobbySocket() {
     });
     socket.on("starting-game", (data: string) => {
       navigate(`/game/${data}`);
+    });
+    socket.on("changed-lobby-status", (data: "open" | "private") => {
+      dispatch(changeStatus(data));
     });
     socket.on("kicking-user", (data: string) => {
       if (user) {
@@ -53,7 +57,10 @@ export default function useLobbySocket() {
       socket.off("user-joined");
       socket.off("user-left");
       socket.off("kicking-user");
+      socket.off("changed-lobby-status");
       socket.off("lobby-message-receive");
+      socket.off("user-left-game");
+      socket.off("starting-game");
     };
   }, []);
 }

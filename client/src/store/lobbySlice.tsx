@@ -19,6 +19,7 @@ type lobbyType = {
   gameState: "waiting" | "started" | "ended";
   gameId: string;
   code: string;
+  status: "open" | "private";
   lobbyChat: chatMessage[];
   users: lobbyUser[];
 };
@@ -34,6 +35,9 @@ const lobbySlice = createSlice({
     },
     leaveLobby: (state) => {
       state.lobby = {} as lobbyType;
+    },
+    changeStatus: (state, action: PayloadAction<"open" | "private">) => {
+      state.lobby.status = action.payload;
     },
     userJoined: (state, action: PayloadAction<lobbyUser>) => {
       if (
@@ -62,6 +66,12 @@ const lobbySlice = createSlice({
 });
 
 const { actions, reducer } = lobbySlice;
-export const { setLobby, leaveLobby, userJoined, userLeft, receiveMessage } =
-  actions;
+export const {
+  setLobby,
+  changeStatus,
+  leaveLobby,
+  userJoined,
+  userLeft,
+  receiveMessage,
+} = actions;
 export default reducer;

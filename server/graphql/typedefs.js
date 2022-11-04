@@ -27,6 +27,7 @@ module.exports = gql`
     code: String
     lobbyChat: [chatMessage]
     users: [lobbyUser]
+    status: String
   }
   type gameCards {
     latestCard: card
@@ -51,6 +52,11 @@ module.exports = gql`
     username: String!
     points: Int!
   }
+  type lobbyInfo {
+    hostUsername: String
+    users: Int
+    code: String
+  }
   type stats {
     username: String
     id: ID
@@ -74,6 +80,7 @@ module.exports = gql`
     getLobby(id: String, userId: String): lobby
     getGame(id: String, userId: String): game
     getStats(page: Int, id: String): stats
+    getPublicLobbies(page: Int): [lobbyInfo]
   }
   type Mutation {
     login(email: String, password: String): token!

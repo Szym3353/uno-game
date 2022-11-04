@@ -10,7 +10,7 @@ export default function useGqlQuery(
 ) {
   const { dispatch } = useCommonData();
 
-  const { data, loading, error } = useQuery(gql, { variables });
+  const { data, loading, error, refetch } = useQuery(gql, { variables });
 
   useEffect(() => {
     if (error) {
@@ -27,5 +27,5 @@ export default function useGqlQuery(
     }
   }, [loading]);
 
-  return { loading, data };
+  return { loading, data, refetch };
 }

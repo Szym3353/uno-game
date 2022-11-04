@@ -1,14 +1,28 @@
-import { gql, useQuery } from "@apollo/client";
 import { socket } from "../socket";
 import { addError, errorType } from "../store/errorSlice";
-import { chatMessage, receiveMessage, userLeft } from "../store/lobbySlice";
+import {
+  chatMessage,
+  lobbyUser,
+  receiveMessage,
+  userLeft,
+  changeStatus as changeStoreStatus,
+} from "../store/lobbySlice";
 import useCommonData from "./useCommonData";
 
 export default function useLobby() {
   const { user, lobby, navigate, dispatch } = useCommonData();
 
+  function checkHost() {
+    if (user) {
+      let id = user.id;
+      if (lobby.users.find((el: lobbyUser) => el.id === id)?.host) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const createLobby = () => {
-    console.log("tworzę lobby");
     socket.emit(
       "create-lobby",
       { hostId: user && user.id },
@@ -21,8 +35,22 @@ export default function useLobby() {
     );
   };
 
+  const changeStatus = () => {
+    socket.emit(
+      "change-lobby-status",
+      { hostId: user && user.id, lobbyId: lobby.id },
+      (err: errorType, res: "open" | "private") => {
+        if (err) {
+          return dispatch(addError(err));
+        }
+        if (res) {
+          dispatch(changeStoreStatus(res));
+        }
+      }
+    );
+  };
+
   const joinLobby = (code: string) => {
-    console.log("join ", code);
     socket.emit(
       "join-lobby",
       { userId: user && user.id, code },
@@ -112,5 +140,7 @@ export default function useLobby() {
     kickUser,
     sendMessage,
     startGame,
+    checkHost,
+    changeStatus,
   };
 }

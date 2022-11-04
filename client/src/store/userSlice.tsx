@@ -5,6 +5,7 @@ type userType = {
   id: string;
   username: string;
   email: string;
+  friends?: string[];
 };
 
 let user: userType | false = localStorage.getItem("user")
