@@ -78,6 +78,17 @@ export const LOBBIES_LIST_QUERY = gql`
   }
 `;
 
+export const FRIENDS_QUERY = gql`
+  query getFriends($userId: String) {
+    getFriends(userId: $userId) {
+      friendId
+      username
+      status
+      activityStatus
+    }
+  }
+`;
+
 export const LOBBY_QUERY = gql`
   query getLobby($id: String, $userId: String) {
     getLobby(id: $id, userId: $userId) {

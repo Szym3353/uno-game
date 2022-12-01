@@ -5,6 +5,7 @@ const { UserInputError, ApolloError } = require("apollo-server-express");
 const { default: mongoose } = require("mongoose");
 const Lobby = require("../../models/lobby");
 const Game = require("../../models/game");
+const { usersSockets } = require("../../socketio/usersSockets");
 
 function generateToken(user) {
   return jwt.sign(
@@ -20,6 +21,28 @@ function generateToken(user) {
 
 module.exports = {
   Query: {
+    async getFriends(_, { userId }) {
+      try {
+        if (!userId || !mongoose.isValidObjectId(userId)) {
+          throw new Error("Niepoprawny identyfikator użytkownika");
+        }
+
+        let user = await User.findById(userId);
+
+        let friendsList = user.friends.map((el) => ({
+          ...el._doc,
+          activityStatus: usersSockets.find(
+            (sockets) => sockets.userId === el.friendId
+          )
+            ? "online"
+            : "offline",
+        }));
+
+        return friendsList;
+      } catch (error) {
+        throw new ApolloError(error.message);
+      }
+    },
     async getStats(_, { page, id }) {
       let elementsPerPage = 10;
       try {
@@ -74,7 +97,6 @@ module.exports = {
           returnedValue.userIn = "lobby";
           returnedValue.id = checkIfInLobby._id;
           if ((checkIfInLobby.gameState = "started")) {
-            //tu będzie check czy jest w grze jak będą zrobione
             let checkIfInGame = await Game.findOne({ "players.id": id });
             if (checkIfInGame) {
               returnedValue.userIn = "game";

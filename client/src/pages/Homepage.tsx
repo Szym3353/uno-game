@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { Card, CardHeader, Container } from "@mui/material";
 import { Box } from "@mui/system";
 import JoinBox from "../components/Homepage/JoinLobby/JoinBox";
+import FriendsListContainer from "../components/FriendsList/FriendsListContainer";
 
 //Store
 import { logout } from "../store/userSlice";
@@ -36,10 +37,18 @@ const Homepage = () => {
             Wyloguj
           </Button>
         </Box>
-        <LoggedUserInfo
-          loading={loading}
-          userData={{ ...data?.getStats, username: user && user.username }}
-        />
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          sx={{ pr: 1 }}
+        >
+          <LoggedUserInfo
+            loading={loading}
+            userData={{ ...data?.getStats, username: user && user.username }}
+          />
+          <FriendsListContainer />
+        </Box>
         <Box>
           <Button onClick={createLobby} variant="contained">
             Stwórz lobby

@@ -6,6 +6,7 @@ const express = require("express");
 const socketIo = require("socket.io");
 const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core");
 const handleConnection = require("./socketio");
+const { usersSockets } = require("./socketio/usersSockets");
 
 require("dotenv").config();
 
@@ -28,7 +29,7 @@ async function startApolloServer() {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
-  io.on("connect_error", (err) => {
+  io.of("/game").on("connect_error", (err) => {
     console.log(`connect_error due to ${err.message}`);
   });
   io.on("connection", (socket) => handleConnection(io, socket));

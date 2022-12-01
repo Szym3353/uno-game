@@ -63,6 +63,12 @@ module.exports = gql`
     ranking: Int!
     points: Int!
   }
+  type friend {
+    status: String
+    username: String
+    activityStatus: String
+    friendId: String
+  }
   type game {
     id: ID!
     lobbyId: String!
@@ -81,6 +87,7 @@ module.exports = gql`
     getGame(id: String, userId: String): game
     getStats(page: Int, id: String): stats
     getPublicLobbies(page: Int): [lobbyInfo]
+    getFriends(userId: String): [friend]
   }
   type Mutation {
     login(email: String, password: String): token!

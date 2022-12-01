@@ -5,9 +5,17 @@ const userSchema = new Schema(
     username: String,
     password: String,
     email: String,
+    activityStatus: String,
     stats: {
       points: Number,
     },
+    friends: [
+      {
+        status: String,
+        friendId: String,
+        username: String,
+      },
+    ],
   },
   { collection: "users" }
 );

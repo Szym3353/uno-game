@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 //Hooks
 import useCommonData from "../../Hooks/useCommonData";
 import useLobby from "../../Hooks/useLobby";
+import useFriends from "../../Hooks/useFriends";
 
 //Types
 import { lobbyUser } from "../../store/lobbySlice";
@@ -16,22 +17,31 @@ import { lobbyUser } from "../../store/lobbySlice";
 const LobbyUsers = () => {
   let { lobby, user } = useCommonData();
   const { kickUser, checkHost } = useLobby();
+  const { sendFriendRequest } = useFriends();
 
+  //Hidden menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string>("");
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string
+  ) => {
     setAnchorEl(event.currentTarget);
+    setSelectedUserId(id);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setSelectedUserId("");
   };
 
-  const menuKick = (id: string) => {
-    kickUser(id);
+  const menuKick = () => {
+    kickUser(selectedUserId);
     handleClose();
   };
 
-  const menuFriendInvite = (id: string) => {
+  const menuFriendInvite = () => {
+    sendFriendRequest(selectedUserId);
     handleClose();
   };
 
@@ -59,7 +69,7 @@ const LobbyUsers = () => {
             >
               <Typography variant={"h6"}>{el.username}</Typography>
               {user && user.id !== el.id ? (
-                <IconButton onClick={handleClick}>
+                <IconButton onClick={(e) => handleClick(e, el.id)}>
                   <MoreVertIcon />
                 </IconButton>
               ) : (
@@ -72,12 +82,10 @@ const LobbyUsers = () => {
               onClose={handleClose}
               id={`user-menu-${el.username}`}
             >
-              <MenuItem onClick={() => menuFriendInvite(el.id)}>
-                {user && user.friends?.includes(el.id)
-                  ? "Usuń ze znajomych"
-                  : "Dodaj do znajomych"}
+              <MenuItem onClick={() => menuFriendInvite()}>
+                Dodaj do znajomych
               </MenuItem>
-              <MenuItem onClick={() => menuKick(el.id)}>Wyrzuć</MenuItem>
+              <MenuItem onClick={() => menuKick()}>Wyrzuć</MenuItem>
             </Menu>
             {el.host && (
               <Typography sx={{ mb: 2 }} variant="subtitle1">

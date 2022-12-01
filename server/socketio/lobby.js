@@ -269,7 +269,7 @@ module.exports = (io, socket) => {
   socket.on("join-lobby", joinLobby);
   socket.on("start-game", startGame);
   socket.on("leave-lobby", leaveLobby);
-  socket.on("change-lobby-stats", changeLobbyStatus);
+  socket.on("change-lobby-status", changeLobbyStatus);
   socket.on("send-lobby-message", sendLobbyMessage);
   socket.on("kick-user", kickUser);
 };

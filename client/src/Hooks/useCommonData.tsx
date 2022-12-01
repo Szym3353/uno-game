@@ -11,6 +11,9 @@ export default function useCommonData() {
   const errors = useSelector((state: RootState) => state.errorReducer.errors);
   const lobby = useSelector((state: RootState) => state.lobbyReducer.lobby);
   const game = useSelector((state: RootState) => state.gameReducer.game);
+  const friends = useSelector(
+    (state: RootState) => state.friendReducer.friends
+  );
 
-  return { game, user, navigate, dispatch, errors, lobby, location };
+  return { game, user, navigate, dispatch, errors, lobby, location, friends };
 }
